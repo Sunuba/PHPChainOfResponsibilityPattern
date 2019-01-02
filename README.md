@@ -1,4 +1,4 @@
-#Chain of Responsibility Pattern
+# Chain of Responsibility Pattern
 
 The intent in this pattern is to decouple sender and receiver. If you have a nested
 ifs checking logic in a row, it could be a good idea to use chain of responsibility
