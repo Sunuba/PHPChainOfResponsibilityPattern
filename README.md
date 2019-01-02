@@ -17,8 +17,10 @@ We now will use chain of responsibility to give cash to the client.
 
 First, we will distribute the total amount into pieces. To do this we create a
 DistributedMoney class where we will keep all the numbers for each nominal. Client has a 
-pressToGetCash method, this method simply divides all amount into possible nominal values. For
-example:
+getCash method, this method simply divides all amount into possible nominal values. For your
+info, this method should be implemented in ATM or BankBranch, because money sorting happens in
+these places, not in Client or a physical person. But this is another topic.
+ For example:
 
     $client = new Client(99);
     $client->pressToGetCash ();
@@ -43,7 +45,7 @@ Result will be:
 1*50+2*20+1*5+4*1 = 50+40+5+4 = 99. So, it works perfectly.
 
 Now, we will try to implement chain of responsibility, the pattern will try to stack money
-beginning from highest nominal value to the lowest one.
+beginning from highest nominal value to the lowest one. (will be continued...)
 
 
 
