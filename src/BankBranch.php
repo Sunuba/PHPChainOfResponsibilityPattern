@@ -2,7 +2,7 @@
 
 namespace res;
 
-class BankBranch
+class BankBranch implements ExchangeInterface
 {
     private $money = 0;
     private $hundreds = 0;
@@ -21,10 +21,10 @@ class BankBranch
     {
         $qaliq100 = $this->money - ($this->money % 100);
         $this->setHundreds ($qaliq100/100);
-        $fifties = $this->money-$qaliq100;
-        $qaliq50 = $fifties - ($fifties % 50);
-        $this->setFifties ($qaliq50/50);
-        $twenties = $fifties-$qaliq50;
+//        $fifties = $this->money-$qaliq100;
+//        $qaliq50 = $fifties - ($fifties % 50);
+//        $this->setFifties ($qaliq50/50);
+        $twenties = $this->money-$qaliq100;
         $qaliq20 = $twenties - ($twenties % 20);
         $this->setTwenties ($qaliq20/20);
         $tens = $twenties-$qaliq20;

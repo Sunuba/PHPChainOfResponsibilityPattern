@@ -104,5 +104,28 @@ The result will be:
     
 Sum is 158
 
+Also, in the future it is possible that a client may want to exchange money from different
+sources such as bank branches. May be in the bank branches they do not give 50 nominals 
+(let's assume something like this.) or they have a certain pattern for exchange. Then you can
+implement your own exchange service by implementing ExchangeInterface interface. In our example
+BankBranch does not give 50 nominals so when you use it like this: `$money = new BankBranch(99);`
+it will give you money in the following way:
+
+    Give 4 20 in cash 
+    Give 1 10 in cash 
+    Give 1 5 in cash 
+    Give 4 1 in cash 
+
+As we do not have 50 nominal value in the bank, we will get 4 20 nominal values and so on.
+In `$money = new ATM(99);` The result will be the following:
+
+    Give 1 50 in cash 
+    Give 2 20 in cash 
+    Give 1 5 in cash 
+    Give 4 1 in cash 
+
+Just implement ExchangeInterface and create your own exchange service. This pattern is called
+Strategy Pattern. In this example we have a bit of composition of design patterns.
+
 Thanks.
 

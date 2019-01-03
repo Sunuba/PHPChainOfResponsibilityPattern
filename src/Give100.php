@@ -6,7 +6,7 @@ namespace res;
 
 class Give100 extends CashHandler
 {
-    public function give($money)
+    public function give(ExchangeInterface $money)
     {
         if ($money->getHundreds () > 0)
         {

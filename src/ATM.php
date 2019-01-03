@@ -2,7 +2,7 @@
 
 namespace res;
 
-class ATM
+class ATM implements ExchangeInterface
 {
     private $money = 0;
     private $hundreds = 0;
