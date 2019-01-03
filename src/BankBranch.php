@@ -4,12 +4,39 @@ namespace res;
 
 class BankBranch
 {
+    private $money = 0;
     private $hundreds = 0;
     private $fifties = 0;
     private $twenties = 0;
     private $tens = 0;
     private $fives = 0;
     private $ones = 0;
+
+    public function __construct($money)
+    {
+        $this->money = $money;
+    }
+
+    public function distribute()
+    {
+        $qaliq100 = $this->money - ($this->money % 100);
+        $this->setHundreds ($qaliq100/100);
+        $fifties = $this->money-$qaliq100;
+        $qaliq50 = $fifties - ($fifties % 50);
+        $this->setFifties ($qaliq50/50);
+        $twenties = $fifties-$qaliq50;
+        $qaliq20 = $twenties - ($twenties % 20);
+        $this->setTwenties ($qaliq20/20);
+        $tens = $twenties-$qaliq20;
+        $qaliq10 = $tens - ($tens % 10);
+        $this->setTens ($qaliq10/10);
+        $fives = $tens-$qaliq10;
+        $qaliq5 = $fives - ($fives % 5);
+        $this->setFives ($qaliq5/5);
+        $ones = $fives-$qaliq5;
+        $qaliq1 = $ones - ($ones % 1);
+        $this->setOnes ($qaliq1/1);
+    }
 
     /**
      * @return mixed

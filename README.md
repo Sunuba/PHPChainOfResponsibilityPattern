@@ -4,7 +4,9 @@ The intent in this pattern is to decouple sender and receiver. If you have a nes
 ifs checking logic in a row, it could be a good idea to use chain of responsibility
 pattern. Let's assume that we are writing a software for ATM to handle money.
 For example, a person comes to an ATM and want to get cash amount of 125, currency
-is not important at this time. We have the following nominal inside ATM:
+is not important at this time. We have the following nominal inside ATM or any other 
+exchange types. We will apply Strategy Pattern here in order to switch between exchange types
+without changing anything inside Client class. So, nominal values are:
 
 - 100
 - 50
@@ -15,37 +17,90 @@ is not important at this time. We have the following nominal inside ATM:
 
 We now will use chain of responsibility to give cash to the client.
 
-First, we will distribute the total amount into pieces. To do this we create a
-DistributedMoney class where we will keep all the numbers for each nominal. Client has a 
-getCash method, this method simply divides all amount into possible nominal values. For your
-info, this method should be implemented in ATM or BankBranch, because money sorting happens in
-these places, not in Client or a physical person. But this is another topic.
+First, we will distribute the total amount into pieces. To do this we create an ATM class 
+where we will keep all the numbers for each nominal. ATM has a distribute method, 
+this method simply divides all amount into possible nominal values. 
+
  For example:
 
-    $client = new Client(99);
-    $client->pressToGetCash ();
-    print_r ($client);
+    $money = new ATM(99); #We want 99 in cash, so we entered 99 to the ATM
+    $money->distribute(); #We pressed confirm button and ATM distributed the money into nominals
+    $client = new Client($money); #We join the client with the money
+    $client->getDistributedMoney (); # Show us what nominals we will get.
 Result will be:
 
     res\Client Object
     (
-        [moneyRequested:res\Client:private] => 99
-        [distributedMoney] => res\DistributedMoney Object
+        [distributedMoney] => res\ATM Object
             (
-                [hundreds:res\DistributedMoney:private] => 0
-                [fifties:res\DistributedMoney:private] => 1
-                [twenties:res\DistributedMoney:private] => 2
-                [tens:res\DistributedMoney:private] => 0
-                [fives:res\DistributedMoney:private] => 1
-                [ones:res\DistributedMoney:private] => 4
+                [money:res\ATM:private] => 99
+                [hundreds:res\ATM:private] => 0
+                [fifties:res\ATM:private] => 1
+                [twenties:res\ATM:private] => 2
+                [tens:res\ATM:private] => 0
+                [fives:res\ATM:private] => 1
+                [ones:res\ATM:private] => 4
             )
     
     )
 
 1*50+2*20+1*5+4*1 = 50+40+5+4 = 99. So, it works perfectly.
 
-Now, we will try to implement chain of responsibility, the pattern will try to stack money
-beginning from highest nominal value to the lowest one. (will be continued...)
+Now, we will try to implement chain of responsibility. For each nominal value, we have a class:
 
+    $give100 = new Give100();
+    $give50 = new Give50();
+    $give20 = new Give20();
+    $give10 = new Give10();
+    $give5 = new Give5();
+    $give1 = new Give1();
 
+Each class implements CashHandler abstract class. CashHandler class handles the queue.
+
+Now, as we are done with the coding we can get a cash from ATM:
+
+    $money = new ATM(99);
+    $money->distribute ();
+    $client = new Client($money);
+    
+    $give100 = new Give100();
+    $give50 = new Give50();
+    $give20 = new Give20();
+    $give10 = new Give10();
+    $give5 = new Give5();
+    $give1 = new Give1();
+    
+    # This is where chain is happening
+    $give100->setSuccessor ($give50);
+    $give50->setSuccessor ($give20);
+    $give20->setSuccessor ($give10);
+    $give10->setSuccessor ($give5);
+    $give5->setSuccessor ($give1);
+    
+    
+    # This is where chain is starting
+    $give100->give ($money);
+
+The result will be:
+
+    Give 1 50 in cash 
+    Give 2 20 in cash 
+    Give 1 5 in cash 
+    Give 4 1 in cash
+
+Sum is 99
+
+If we request 158:
+    
+    $money = new ATM(158);
+    ...
+
+The result will be:
+
+    Give 1 100 in cash 
+    Give 1 50 in cash 
+    Give 1 5 in cash 
+    Give 3 1 in cash 
+    
+Sum is 158
 
