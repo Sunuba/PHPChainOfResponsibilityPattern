@@ -117,6 +117,7 @@ it will give you money in the following way:
     Give 4 1 in cash 
 
 As we do not have 50 nominal value in the bank, we will get 4 20 nominal values and so on.
+
 In `$money = new ATM(99);` The result will be the following:
 
     Give 1 50 in cash 
