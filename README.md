@@ -124,8 +124,7 @@ In `$money = new ATM(99);` The result will be the following:
     Give 1 5 in cash 
     Give 4 1 in cash 
 
-Just implement ExchangeInterface and create your own exchange service. This pattern is called
-Strategy Pattern. In this example we have a bit of composition of design patterns.
+Just implement ExchangeInterface and create your own exchange service.
 
 Thanks.
 
