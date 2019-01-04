@@ -44,7 +44,7 @@ Result will be:
     
     )
 
-1*50+2*20+1*5+4*1 = 50+40+5+4 = 99. So, it works perfectly.
+1\*50+2\*20+1\*5+4\*1 = 50+40+5+4 = 99. So, it works perfectly.
 
 Now, we will try to implement chain of responsibility. For each nominal value, we have a class:
 
